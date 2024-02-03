@@ -1,0 +1,18 @@
+@keyframes error-message {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+.error{
+  color: red;
+  z-index: 10000;
+  margin-top: -10px;
+  font-size: 14px;
+  animation-name: error-message;
+  animation-duration: 300ms ;
+}

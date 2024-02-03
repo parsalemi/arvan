@@ -1,1 +1,29 @@
-<p>login works!</p>
+<div class="w-full h-screen flex items-center justify-center">
+<form [formGroup]="login" (ngSubmit)="signIn()" class="w-[30%] text-center flex flex-col gap-10 bg-indigo-200 p-8 rounded-2xl shadow-lg">
+  <h1 class="text-4xl">Login</h1>
+
+  <div class="flex flex-col gap-3">
+    <label for="email" class="text-lg">Email</label>
+    <input
+    formControlName="email"
+    type="email"
+    id="email"
+    autocomplete="new-email"
+    class="rounded-3xl px-4 py-3 bg-indigo-50 focus-visible:outline-none">
+  </div>
+  <div class="flex flex-col gap-3">
+    <label for="password" class="text-lg">Password</label>
+    <input
+    formControlName="password"
+    type="password"
+    id="password"
+    autocomplete="new-password"
+    class="rounded-3xl px-4 py-3 bg-indigo-50 focus-visible:outline-none">
+  </div>
+  <button type="submit" class="w-[20%] px-4 py-3 bg-amber-200 place-self-center">Login</button>
+  <a routerLink="/auth/register">
+    Don't have an account? Sign up <b class="text-red-500 underline">HERE</b>
+  </a>
+</form>
+</div>
+{{login.value | json}}

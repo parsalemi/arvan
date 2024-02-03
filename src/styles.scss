@@ -5,3 +5,10 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
+html{
+  overflow: hidden;
+}
+.ng-invalid.ng-dirty:not(form) {
+  border: 2px solid red !important;
+}

@@ -1,1 +1,34 @@
-<p>list works!</p>
+<div class="w-full h-full p-5 flex justify-center flex-col overflow-x-scroll">
+  <table class="w-full border border-black">
+    <thead>
+      <tr class="w-full border-b border-black">
+        <td class="w-[4%] max-h-[14%] text-center border-r border-black">#</td>
+        <td class="w-[24%] max-h-[14%] text-center">Title</td>
+        <td class="w-[10%] max-h-[14%] text-center">Author</td>
+        <td class="w-[15%] max-h-[14%] text-center">Tags</td>
+        <td class="w-[30%] max-h-[14%] text-center">Description</td>
+        <td class="w-[13%] max-h-[14%] text-center">created</td>
+        <td class="w-[4%] max-h-[14%] text-center"></td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of articles | paginate : {itemsPerPage:10, currentPage: p, totalItems:273};let i = index"
+          class="text-center odd:bg-cyan-50 h-[68px]">
+        <td class="border-r border-black">{{i+1}}</td>
+        <td class=""><span class="truncate">{{a.title}}</span></td>
+        <td class="">{{a.author.username}}</td>
+        <td class=""><span *ngFor="let tag of a.tagList" class="text-wrap">{{tag}},</span></td>
+        <td class=""><span class="truncate w-[30px]">{{a.description}}</span></td>
+        <td class="">{{a.createdAt}}</td>
+        <td class="cursor-pointer" (click)="openOpt(i,$event)" ><svg height="20px" width="20px" class="fill-cyan-800 " id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M98.9,184.7l1.8,2.1l136,156.5c4.6,5.3,11.5,8.6,19.2,8.6c7.7,0,14.6-3.4,19.2-8.6L411,187.1l2.3-2.6  c1.7-2.5,2.7-5.5,2.7-8.7c0-8.7-7.4-15.8-16.6-15.8v0H112.6v0c-9.2,0-16.6,7.1-16.6,15.8C96,179.1,97.1,182.2,98.9,184.7z"/></svg></td>
+        <div *ngIf="a.expand" class="flex flex-col bg-cyan-600 absolute top-{{32 + (i+4)}} right-16 cursor-pointer">
+          <p (click)="deleteArticle(i,$event)" class="px-2 py-1 hover:bg-cyan-700 transition-all text-white">Delete</p>
+          <p (click)="editArticle(i,$event)" class="px-2 py-1 hover:bg-cyan-700 transition-all text-white">Edit</p>
+        </div>
+      </tr>
+    </tbody>
+  </table>
+  <div class="w-full flex justify-center items-center place-content-center">
+    <pagination-controls (pageChange)="nextPage($event)"></pagination-controls>
+  </div>
+</div>

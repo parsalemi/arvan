@@ -1,1 +1,46 @@
-<p>add works!</p>
+<div class="w-full absolute flex flex-row justify-between">
+  <div class="flex flex-col flex-[50]">
+
+  <h1 class="text-4xl my-5 ml-10">New Article</h1>
+  <form [formGroup]="addArticle" class="flex flex-col ml-10 w-[50%]" (ngSubmit)="editMode ? edit() : add()">
+    <label for="title">Title</label>
+    <input
+      formControlName="title"
+      type="text"
+      id="title"
+      placeholder="Tilte">
+
+    <label for="description">Description</label>
+    <input
+      formControlName="description"
+      type="text"
+      id="description"
+      placeholder="Description">
+
+    <label for="body">Body</label>
+    <textarea
+      formControlName="body"
+      id="body"
+      placeholder="Body"
+      rows="10"
+      style="resize: none"
+      ></textarea>
+  <fieldset class="flex-1 p-4 absolute top-4 right-96 border border-black min-h-full w-52 px-7">
+    <legend class="text-4xl">Tags</legend>
+    <div class="flex flex-col mt-7 ml-3">
+          <div class="flex justify-around my-3" *ngFor="let tag of [1,2,3,4,5,6,7,8,9,10];">
+            <label for="tag{{tag}}">{{tag}}</label>
+            <input
+            type="checkbox"
+            id="tag{{tag}}"
+            (change)="changeTags('tag'+tag)"
+            value="{{tag}}">
+          </div>
+        </div>
+      </fieldset>
+    <button type="submit" class="bg-amber-600 self-center px-10 py-5 w-[10%] font-bold rounded-3xl text-white mt-10 flex justify-center items-center">
+      <span class="text-center">{{editMode ? 'EDIT': 'ADD' }}</span>
+    </button>
+    </form>
+  </div>
+</div>

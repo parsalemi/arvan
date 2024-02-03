@@ -1,3 +1,11 @@
-<app-header></app-header>
-<app-sidebar></app-sidebar>
-<router-outlet></router-outlet>
+<div class="overflow-hidden">
+  <app-header class="sticky"></app-header>
+  <div class="flex w-full h-full overflow-hidden">
+    <div class="">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="w-[100vw] overflow-auto max-h-screen">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

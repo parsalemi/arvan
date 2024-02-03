@@ -1,0 +1,23 @@
+::ng-deep.ngx-pagination{
+  background-color: rgba(225, 225, 225, 0.51) !important;
+  box-shadow: 0 0 3px black;
+  border-radius: 10px;
+  width: fit-content;
+  margin-top: 40px;
+}
+::ng-deep.ngx-pagination li.current{
+  background-color: rgb(8, 145, 178);
+}
+td{
+  height: 50px;
+}
+table{
+  height: 200px !important;
+}
+table td{
+  vertical-align: center;
+  text-align: center;
+}
+_ngcontent-ng-c3216193454{
+  width: 100px;
+}
