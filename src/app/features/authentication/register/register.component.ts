@@ -10,6 +10,7 @@ import { JsonPipe, NgClass, NgIf } from "@angular/common";
 import { ApiService } from "../../../services/api.service";
 import { Router, RouterLink } from "@angular/router";
 import { error } from "@angular/compiler-cli/src/transformers/util";
+import { ToastrService } from "ngx-toastr";
 function passwordMatch(): ValidatorFn{
   return (abstractControl : AbstractControl) => {
     const password = abstractControl.get('password') as AbstractControl<string>;
@@ -39,6 +40,7 @@ function passwordMatch(): ValidatorFn{
 export class RegisterComponent {
   private _api = inject(ApiService);
   router = inject(Router);
+  private toastr = inject(ToastrService);
   register = new FormGroup({
     email: new FormControl(null, [Validators.email,Validators.required]),
     username: new FormControl(null,[Validators.required]),
@@ -56,7 +58,17 @@ export class RegisterComponent {
       localStorage.setItem('token',a.user.token);
       localStorage.setItem('username',a.user.username);
       localStorage.setItem('password',a.user.password);
-      this.router.navigate(['/list'])
+      this.router.navigate(['/list']);
+      this.toastr.success('Sign Up Successfully', 'Register Done',{
+        timeOut: 2000,
+        positionClass: 'toast-top-right',
+        closeButton: true
+      });
+      this.toastr.error('Try Again Later', 'Something Went Wrong',{
+        timeOut: 5000,
+        positionClass: 'toast-top-right',
+        closeButton: true
+      });
     });
   }
 }

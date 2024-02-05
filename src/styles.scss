@@ -6,6 +6,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@import 'ngx-toastr/toastr';
+//@import 'ngx-toastr/toastr-bs4-alert';
+
 html{
   overflow: hidden;
 }
