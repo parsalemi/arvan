@@ -17,11 +17,11 @@ export const routes: Routes = [
       },
       {
         path:'add',
-        loadComponent: () => import('./add/add.component').then(c => c.AddComponent)
+        loadComponent: () => import('./add-edit/add-edit.component').then(c => c.AddEditComponent)
       },
       {
         path:'edit',
-        loadComponent: () => import('./add/add.component').then(c => c.AddComponent),
+        loadComponent: () => import('./add-edit/add-edit.component').then(c => c.AddEditComponent),
       },
       {
         path:'**',

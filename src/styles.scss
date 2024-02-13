@@ -7,11 +7,63 @@
 @import "tailwindcss/utilities";
 
 @import 'ngx-toastr/toastr';
-//@import 'ngx-toastr/toastr-bs4-alert';
+
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
 
 html{
   overflow: hidden;
 }
 .ng-invalid.ng-dirty:not(form) {
   border: 2px solid red !important;
+}
+
+$black-100: rgba(29, 29, 29, 1);
+$black-200: rgba(29, 29, 29, 0.97);
+$black-300: rgba(29, 29, 29, 0.8);
+$black-400: rgba(29, 29, 29, 0.7);
+$black-500: rgba(29, 29, 29, 0.6);
+$black-600: rgba(29, 29, 29, 0.5);
+$black-700: rgba(29, 29, 29, 0.4);
+$black-800: rgba(29, 29, 29, 0.3);
+$black-900: rgba(29, 29, 29, 0.2);
+$black-1000: rgba(29, 29, 29, 0.1);
+$black-000: rgba(29, 29, 29, 0);
+
+$blue-100: rgba(34, 114, 255, 1);
+$blue-200: rgba(34, 114, 255, 0.9);
+$blue-300: rgba(34, 114, 255, 0.8);
+$blue-400: rgba(34, 114, 255, 0.7);
+$blue-500: rgba(34, 114, 255, 0.6);
+$blue-600: rgba(34, 114, 255, 0.5);
+$blue-700: rgba(34, 114, 255, 0.4);
+$blue-800: rgba(34, 114, 255, 0.3);
+$blue-900: rgba(34, 114, 255, 0.2);
+$blue-1000: rgba(34, 114, 255, 0.1);
+$blue-000: rgba(34, 114, 255, 0);
+:root{
+  --black-aa-100: #{$black-100};
+  --black-aa-200: #{$black-200};
+  --black-aa-300: #{$black-300};
+  --black-aa-400: #{$black-400};
+  --black-aa-500: #{$black-500};
+  --black-aa-600: #{$black-600};
+  --black-aa-700: #{$black-700};
+  --black-aa-800: #{$black-800};
+  --black-aa-900: #{$black-900};
+  --black-aa-1000: #{$black-1000};
+  --black-aa-000: #{$black-000};
+
+  --blue-neon-100: #{$blue-100};
+  --blue-neon-200: #{$blue-200};
+  --blue-neon-300: #{$blue-300};
+  --blue-neon-400: #{$blue-400};
+  --blue-neon-500: #{$blue-500};
+  --blue-neon-600: #{$blue-600};
+  --blue-neon-700: #{$blue-700};
+  --blue-neon-800: #{$blue-800};
+  --blue-neon-900: #{$blue-900};
+  --blue-neon-1000: #{$blue-1000};
+  --blue-neon-000: #{$blue-000};
 }

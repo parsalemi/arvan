@@ -7,10 +7,10 @@ import {
   ValidatorFn, Validators
 } from "@angular/forms";
 import { JsonPipe, NgClass, NgIf } from "@angular/common";
-import { ApiService } from "../../../services/api.service";
 import { Router, RouterLink } from "@angular/router";
-import { error } from "@angular/compiler-cli/src/transformers/util";
 import { ToastrService } from "ngx-toastr";
+import { UserService } from "../user.service";
+import { User, UserDTO } from "../../../core/models/user.model";
 function passwordMatch(): ValidatorFn{
   return (abstractControl : AbstractControl) => {
     const password = abstractControl.get('password') as AbstractControl<string>;
@@ -38,37 +38,41 @@ function passwordMatch(): ValidatorFn{
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  private _api = inject(ApiService);
+  private _api = inject(UserService);
   router = inject(Router);
-  private toastr = inject(ToastrService);
+  private _toastr = inject(ToastrService);
   register = new FormGroup({
-    email: new FormControl(null, [Validators.email,Validators.required]),
-    username: new FormControl(null,[Validators.required]),
-    password: new FormControl(null,[Validators.required]),
-    confirmPass: new FormControl(null,[Validators.required])
-  },
-    {validators: [ passwordMatch() ]});
+    email: new FormControl("", [Validators.email,Validators.required]),
+    username: new FormControl("",[Validators.required]),
+    password: new FormControl("",[Validators.required]),
+    confirmPass: new FormControl("",[Validators.required])
+  }, {validators: [ passwordMatch() ]}
+  );
 
 
   signUp(){
-    const data = this.register.value;
-    delete data.confirmPass;
-    this._api.userRegister(data).subscribe((a:any) => {
-      console.log(a);
-      localStorage.setItem('token',a.user.token);
-      localStorage.setItem('username',a.user.username);
-      localStorage.setItem('password',a.user.password);
-      this.router.navigate(['/list']);
-      this.toastr.success('Sign Up Successfully', 'Register Done',{
-        timeOut: 2000,
-        positionClass: 'toast-top-right',
-        closeButton: true
-      });
-      this.toastr.error('Try Again Later', 'Something Went Wrong',{
-        timeOut: 5000,
-        positionClass: 'toast-top-right',
-        closeButton: true
-      });
+    const data: User = {
+      email: this.register.value.email as string,
+      username: this.register.value.username as string,
+      password: this.register.value.password as string
+    };
+    this._api.userRegister(data).subscribe({next: (a: UserDTO)  => {
+        console.log(a);
+        localStorage.setItem('token', a.user.token);
+        localStorage.setItem('username', a.user.username);
+        this.router.navigate(['/list']);
+        this._toastr.success('Sign Up Successfully', 'Register Done', {
+          timeOut: 2000,
+          positionClass: 'toast-top-right',
+          closeButton: true
+        });
+      }, error: () => {
+        this._toastr.error('Try Again Later', 'Something Went Wrong',{
+          timeOut: 5000,
+          positionClass: 'toast-top-right',
+          closeButton: true
+        });
+      }
     });
   }
 }

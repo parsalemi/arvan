@@ -1,23 +1,57 @@
 ::ng-deep.ngx-pagination{
-  background-color: rgba(225, 225, 225, 0.51) !important;
-  box-shadow: 0 0 3px black;
+  background-color: var(--black-aa-000) !important;
+  box-shadow: 0 0 5px rgba(34, 114, 255, 0.6);
   border-radius: 10px;
   width: fit-content;
   margin-top: 40px;
 }
+::ng-deep.ngx-pagination li span{
+  color: var(--blue-neon-100) !important;
+}
 ::ng-deep.ngx-pagination li.current{
-  background-color: rgb(8, 145, 178);
+  background-color: rgb(34, 114, 255, 1);
 }
-td{
-  height: 50px;
+::ng-deep.ngx-pagination li.current span{
+  color: white !important;
 }
+::ng-deep.ngx-pagination li a:hover{
+  background-color: rgba(34, 114, 255, 0.5) !important;
+}
+::ng-deep.ngx-pagination li a:hover span{
+  color: white !important;
+}
+tr{
+  height: 68px;
+}
+//table{
+//  height: 118px !important;
+//}
 table{
-  height: 200px !important;
+  resize: none;
+  table-layout: fixed !important;
 }
 table td{
   vertical-align: center;
   text-align: center;
 }
-_ngcontent-ng-c3216193454{
-  width: 100px;
+//::ng-deep #pn_id_1{
+//  background-color: var(--black-aa-100) !important;
+//  //width: 90px;
+//  margin-right: 10px;
+//  text-align: center;
+//}
+::ng-deep .p-menu{
+  background-color: var(--black-aa-100) !important;
+  //width: 90px;
+  margin-right: 10px;
+  text-align: center;
 }
+::ng-deep .p-menuitem-content:hover{
+  background-color: black !important;
+}
+::ng-deep .p-menuitem-text{
+  color: white;
+}
+//_ngcontent-ng-c3216193454{
+//  width: 100px;
+//}

@@ -1,0 +1,60 @@
+<div class="w-full absolute flex flex-row justify-between text-blue-100">
+  <div class="flex flex-col flex-[50]">
+
+  <h1 class="text-4xl my-5 ml-10 ">New Article</h1>
+  <form [formGroup]="addArticle" class="flex flex-col ml-10 gap-10 w-[50%]" (ngSubmit)="editMode ? edit() : add()">
+
+    <div class="flex flex-col gap-3 relative">
+      <label for="title">Title</label>
+      <input
+        formControlName="title"
+        type="text"
+        id="title"
+        placeholder="Title"
+        class="outline-none focus-visible:outline-1 focus-visible:outline-amber-200 bg-gray-700">
+      <p class="text-red-500 text-sm error absolute -bottom-5 left-0 right-0 mx-auto" *ngIf="addArticle.get('title')?.dirty && addArticle.get('title')?.hasError('required')">This field is required</p>
+    </div>
+
+    <div class="flex flex-col gap-3 relative">
+      <label for="description">Description</label>
+      <input
+        formControlName="description"
+        type="text"
+        id="description"
+        placeholder="Description"
+        class="focus-visible:outline-none bg-gray-700">
+      <p class="text-red-500 text-sm error absolute -bottom-5 left-0 right-0 mx-auto" *ngIf="addArticle.get('description')?.dirty && addArticle.get('description')?.hasError('required')">This field is required</p>
+    </div>
+
+    <div class="flex flex-col gap-3 relative">
+      <label for="body">Body</label>
+      <textarea
+        formControlName="body"
+        id="body"
+        placeholder="Body"
+        rows="10"
+        style="resize: none"
+        class="box-border p-2 focus-visible:outline-none bg-gray-700"
+        ></textarea>
+      <p class="text-red-500 text-sm error absolute -bottom-5 left-0 right-0 mx-auto" *ngIf="addArticle.get('body')?.dirty && addArticle.get('body')?.hasError('required')">This field is required</p>
+    </div>
+  <fieldset class="flex-1 p-4 absolute top-4 right-96 border border-secondary-400 min-h-[70%] w-52 px-7">
+    <legend class="text-4xl">Tags</legend>
+    <div class="flex flex-col mt-7 ml-3">
+          <div class="flex justify-around my-3" *ngFor="let tag of [1,2,3,4,5,6,7,8,9,10];">
+            <label for="tag{{tag}}">{{tag}}</label>
+            <input
+            type="checkbox"
+            id="tag{{tag}}"
+            (change)="changeTags('tag'+ tag)"
+            value="{{tag}}"
+            class="">
+          </div>
+        </div>
+      </fieldset>
+    <button type="submit" class="bg-secondary-400 hover:bg-secondary-200 active:bg-secondary-700 self-center px-10 py-5 w-[10%] font-bold rounded-3xl text-white mt-10 flex justify-center items-center">
+      <span class="text-center">{{editMode ? 'EDIT': 'ADD' }}</span>
+    </button>
+    </form>
+  </div>
+</div>

@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { JsonPipe } from "@angular/common";
 import { Router, RouterLink } from "@angular/router";
-import { ApiService } from "../../../services/api.service";
 import { ToastrService } from "ngx-toastr";
-
+import { UserService } from "../user.service";
+import { User, UserDTO, UserLogin } from "../../../core/models/user.model"
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -17,31 +17,37 @@ import { ToastrService } from "ngx-toastr";
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  private _api = inject(ApiService);
+  private _userService = inject(UserService);
   router = inject(Router);
-  private toastr = inject(ToastrService);
-  login = new FormGroup({
-    email:new FormControl(null,),
-    password:new FormControl(null)
+  private _toastr = inject(ToastrService);
+  loginForm = new FormGroup({
+    email: new FormControl(""),
+    password: new FormControl("")
   });
 
-  signIn(){
-    this._api.login(this.login.value).subscribe((a:any) => {
-      if(a.user.token){
-        localStorage.setItem('token',a.user.token);
-        localStorage.setItem('username',a.user.username);
-        this.router.navigate(['/list']);
-        this.toastr.success('Enjoy!','You Logged In Successfully', {
-          timeOut: 2000,
-          positionClass: 'toast-top-right',
-          closeButton: true
-        });
-        this.toastr.error('Try Again Later', 'Something Went Wrong', {
-          timeOut: 5000,
-          positionClass: 'toast-top-right',
-          closeButton: true
-        });
-      }
-    });
+  loginUser(){
+    const body: UserLogin = {
+      email: this.loginForm.value.email as string,
+      password: this.loginForm.value.password as string
+    }
+    this._userService.userLogin(body).subscribe({next: (data:UserDTO) => {
+          if(data.user.token){
+            localStorage.setItem('token',data.user.token);
+            localStorage.setItem('username',data.user.username);
+            this.router.navigate(['/list']);
+            this._toastr.success('Enjoy!','You Logged In Successfully', {
+              timeOut: 2000,
+              positionClass: 'toast-top-right',
+              closeButton: true
+            });
+          }
+      },
+    error: () => {
+      this._toastr.error('Try Again Later', 'Something Went Wrong', {
+        timeOut: 5000,
+        positionClass: 'toast-top-right',
+        closeButton: true
+      });
+    }});
   }
 }
