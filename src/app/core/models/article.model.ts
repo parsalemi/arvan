@@ -7,7 +7,7 @@ export interface Article{
   title: string,
   description: string,
   body: string,
-  createdAt: Date,
+  createdAt: string,
   updatedAt: string,
   expand: boolean,
   hasExpand: number,

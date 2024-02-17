@@ -1,8 +1,9 @@
-<div class="w-full absolute flex flex-row justify-between text-blue-100">
+<div class="w-full absolute flex flex-row justify-between text-blue-100" *ngIf="{ editVal: editSubmit | async, addVal: addSubmit | async } as subs">
+
   <div class="flex flex-col flex-[50]">
 
   <h1 class="text-4xl my-5 ml-10 ">New Article</h1>
-  <form [formGroup]="addArticle" class="flex flex-col ml-10 gap-10 w-[50%]" (ngSubmit)="editMode ? edit() : add()">
+  <form [formGroup]="addArticle" class="flex flex-col ml-10 gap-10 w-[50%]" (ngSubmit)="editMode ? editTrigger.next(undefined) : addTrigger.next(undefined)">  {{ subs.editVal | json }}
 
     <div class="flex flex-col gap-3 relative">
       <label for="title">Title</label>

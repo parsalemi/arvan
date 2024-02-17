@@ -1,5 +1,5 @@
 <div class="w-full h-full p-5 flex flex-col overflow-x-scroll">
-  <table class="w-full border border-black overflow-hidden">
+  <table class="w-full border border-black overflow-hidden" *ngIf="{ delete: deleteSubmit | async } as subs">
     <thead>
       <tr class="w-full border-b border-black bg-secondary-500 text-white font-extrabold shadow-sm shadow-black">
         <td class="w-[4%] max-h-[14%] text-center border-r border-black">#</td>
@@ -12,24 +12,25 @@
       </tr>
     </thead>
     <tbody *ngIf="articles$ | async as articles">
-      <tr *ngFor="let a of articles | paginate : {itemsPerPage:10, currentPage: page, totalItems:273}; let i = index; let even = even"
+      <tr *ngFor="let a of articles | paginate : {itemsPerPage:10, currentPage: page$.value, totalItems:270}; let i = index; let even = even"
           class="even:bg-secondary-800 even:text-blue-100 odd:bg-primary-100 odd:text-blue-100 rowtr">
         <td class="w-[4%] h-[68px] border-r border-black">{{ i + 1 }}</td>
         <td class="w-[20%] h-[68px] overflow-hidden whitespace-nowrap p-4 text-ellipsis"><span class="">{{a.title}}</span></td>
         <td class="w-[10%] h-[68px] p-4">{{a.author.username}}</td>
         <td class="w-[15%] h-[68px] overflow-hidden whitespace-nowrap p-4 text-ellipsis"><span *ngFor="let tag of a.tagList" class="text-wrap">{{tag}},</span></td>
         <td class="w-[31%] h-[68px] overflow-hidden whitespace-nowrap p-4 text-ellipsis"><span class="">{{a.description}}</span></td>
-        <td class="w-[10%] h-[68px] overflow-hidden whitespace-nowrap p-4 text-ellipsis">{{a.createdAt}}</td>
+        <td class="w-[10%] h-[68px] overflow-hidden whitespace-nowrap p-4 text-ellipsis">{{a.createdAt.split('T')[0]}}</td>
         <td class="w-[10%] h-[68px] p-4">
           <div class="flex w-full justify-around items-center">
-            <p-button pButton icon="pi pi-file-edit" class="p-button-info w-9 h-9" (click)="editArticle(i, $event)"></p-button>
-            <p-button pButton icon="pi pi-trash" class="p-button-danger w-9 h-9" (click)="deleteArticle(i, $event)"></p-button>
+            <p-button pButton icon="pi pi-file-edit" class="p-button-info w-9 h-9" (click)="editArticle(i, $event)" pTooltip="Edit article" tooltipPosition="bottom"></p-button>
+            <p-button pButton icon="pi pi-trash" class="p-button-danger w-9 h-9" (click)="deleteArticle(a.slug, $event)" pTooltip="Delete article" tooltipPosition="bottom"></p-button>
           </div>
         </td>
       </tr>
+      <i *ngIf="loading" class="pi pi-spin pi-spinner text-white fixed top-[3%] right-[50%] text-4xl"></i>
     </tbody>
   </table>
   <div class="w-full fixed bottom-5 right-0 flex justify-center items-center place-content-center">
-    <pagination-controls (pageChange)="nextPage($event)"></pagination-controls>
+    <pagination-controls (pageChange)="page$.next($event)"></pagination-controls>
   </div>
 </div>

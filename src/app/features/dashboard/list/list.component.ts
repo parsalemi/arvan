@@ -1,13 +1,14 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from "@angular/common";
-import { async, expand, fromEvent, map, Subscription } from "rxjs";
+import { BehaviorSubject, Observable, Subject, Subscription, switchMap, tap } from "rxjs";
 import { NgxPaginationModule } from "ngx-pagination";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { DashboardService } from "../dashboard.service";
-import { Article, ArticleAdd, ArticleDTO } from "../../../core/models/article.model";
-import { MenuModule} from "primeng/menu";
-import { ButtonModule} from "primeng/button";
+import { Article } from "../../../core/models/article.model";
+import { MenuModule } from "primeng/menu";
+import { ButtonModule } from "primeng/button";
+
 @Component({
   selector: 'app-list',
   standalone: true,
@@ -24,72 +25,72 @@ import { ButtonModule} from "primeng/button";
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnDestroy {
+
   private _api = inject(DashboardService);
-  articles: any;
-  page: number = 1;
-  opt: Boolean = false;
-  private subscriptions: Subscription = new Subscription()
-  router = inject(Router);
+  private _subscription: Subscription = new Subscription();
   private _toastr = inject(ToastrService);
+  router = inject(Router);
+  articles: any;
+  loading = false;
 
-  articles$ = this._api.getArticle(1);
+  articles$?: Observable<Article[]>;
+  page$ = new BehaviorSubject(1);
+  deleteSlug$ = new Subject<string>();
+  deleteSubmit?: Observable<any>;
 
-  getArticles(pageIndex:number){
-    this._api.getArticle(pageIndex).subscribe((a: Article[]) => {
-      this.articles = a.map((item: Article) => ({
-        ...item, expand: false
-      }));
-    this.page = pageIndex
-    });
-  }
-  ngOnInit() {
-    this.getArticles(1);
-  }
+  constructor() {
+    this.articles$ = this.page$.pipe(
+      switchMap((page) => {
+        return this._api.getArticle(page);
+      })
+    );
 
-  nextPage(event: number) {
-    this.getArticles(event);
-  }
-  deleteArticle(i: number, event: any) {
-    const cnfrm = confirm('Are you sure you want to delete?');
-    if(cnfrm){
-      this._api.deleteArticle(this.articles[i].slug).subscribe({next:(a) => {
-        this._api.getArticle(1);
-        this._toastr.success('Item removed successfully','Article Deleted',{
+    this.deleteSubmit = this.deleteSlug$.pipe(switchMap(slug => {
+      return this._api.deleteArticle(slug)
+    }), tap({
+      next: (a) => {
+        this.page$.next(1);
+        this.loading = true;
+        this._toastr.success('Item removed successfully', 'Article Deleted', {
           timeOut: 3000,
           positionClass: 'toast-top-right',
           closeButton: true
-        });},
-        error : () => {
-          this._toastr.error('Please try again later', 'Something went wrong', {
-            timeOut: 5000,
-            positionClass: 'toast-top-right',
-            closeButton: true
         });
-        }
-      });
+        this.loading = false;
+      },
+      error: () => {
+        this._toastr.error('Please try again later', 'Something went wrong', {
+          timeOut: 5000,
+          positionClass: 'toast-top-right',
+          closeButton: true
+        });
+      }
+    }));
+  }
+
+  deleteArticle(slug: string, event: any) {
+    const cnfrm = confirm('Are you sure you want to delete?');
+    if (cnfrm) {
+      this.deleteSlug$.next(slug);
     }
-    event.stopPropagation();
   }
 
   editArticle(i: number, event: any) {
     this.router.navigate(['/edit'], {
-      state:{
+      state: {
         ...this.articles[i]
       }
     });
-    this._toastr.info("Don't forget to save",'',{
+    this._toastr.info("Don't forget to save", '', {
       timeOut: 3000,
       positionClass: 'toast-top-right',
       closeButton: true
     });
-
-    this.articles[i].expand = !this.articles[i].expand;
-    event.stopPropagation();
   }
 
   ngOnDestroy() {
-    this.subscriptions.unsubscribe()
+    this._subscription.unsubscribe();
   }
 }
 
