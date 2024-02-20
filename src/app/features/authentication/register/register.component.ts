@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -11,6 +11,7 @@ import { Router, RouterLink } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { UserService } from "../user.service";
 import { User, UserDTO } from "../../../core/models/user.model";
+import { map, switchMap, tap } from "rxjs";
 function passwordMatch(): ValidatorFn{
   return (abstractControl : AbstractControl) => {
     const password = abstractControl.get('password') as AbstractControl<string>;
@@ -39,8 +40,10 @@ function passwordMatch(): ValidatorFn{
 })
 export class RegisterComponent {
   private _api = inject(UserService);
-  router = inject(Router);
   private _toastr = inject(ToastrService);
+  router = inject(Router);
+  loading = false;
+
   register = new FormGroup({
     email: new FormControl("", [Validators.email,Validators.required]),
     username: new FormControl("",[Validators.required]),
@@ -49,15 +52,16 @@ export class RegisterComponent {
   }, {validators: [ passwordMatch() ]}
   );
 
-
   signUp(){
     const data: User = {
       email: this.register.value.email as string,
       username: this.register.value.username as string,
       password: this.register.value.password as string
     };
-    this._api.userRegister(data).subscribe({next: (a: UserDTO)  => {
+    this._api.userRegister(data).subscribe(
+      { next: (a)  => {
         console.log(a);
+        this.loading= false;
         localStorage.setItem('token', a.user.token);
         localStorage.setItem('username', a.user.username);
         this.router.navigate(['/list']);
@@ -67,6 +71,7 @@ export class RegisterComponent {
           closeButton: true
         });
       }, error: () => {
+        this.loading = false;
         this._toastr.error('Try Again Later', 'Something Went Wrong',{
           timeOut: 5000,
           positionClass: 'toast-top-right',
@@ -74,5 +79,9 @@ export class RegisterComponent {
         });
       }
     });
+  }
+
+  load(){
+    this.loading = true;
   }
 }

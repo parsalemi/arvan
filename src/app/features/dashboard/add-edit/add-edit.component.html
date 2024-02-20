@@ -3,7 +3,7 @@
   <div class="flex flex-col flex-[50]">
 
   <h1 class="text-4xl my-5 ml-10 ">New Article</h1>
-  <form [formGroup]="addArticle" class="flex flex-col ml-10 gap-10 w-[50%]" (ngSubmit)="editMode ? editTrigger.next(undefined) : addTrigger.next(undefined)">  {{ subs.editVal | json }}
+  <form [formGroup]="addArticle" class="flex flex-col ml-10 gap-10 w-[50%]" (ngSubmit)="editMode ? editTrigger.next(undefined) : addTrigger.next(undefined)">
 
     <div class="flex flex-col gap-3 relative">
       <label for="title">Title</label>
@@ -12,6 +12,7 @@
         type="text"
         id="title"
         placeholder="Title"
+        autocomplete="off"
         class="outline-none focus-visible:outline-1 focus-visible:outline-amber-200 bg-gray-700">
       <p class="text-red-500 text-sm error absolute -bottom-5 left-0 right-0 mx-auto" *ngIf="addArticle.get('title')?.dirty && addArticle.get('title')?.hasError('required')">This field is required</p>
     </div>
@@ -21,6 +22,7 @@
       <input
         formControlName="description"
         type="text"
+        autocomplete="off"
         id="description"
         placeholder="Description"
         class="focus-visible:outline-none bg-gray-700">
@@ -32,6 +34,7 @@
       <textarea
         formControlName="body"
         id="body"
+        autocomplete="off"
         placeholder="Body"
         rows="10"
         style="resize: none"
@@ -42,13 +45,13 @@
   <fieldset class="flex-1 p-4 absolute top-4 right-96 border border-secondary-400 min-h-[70%] w-52 px-7">
     <legend class="text-4xl">Tags</legend>
     <div class="flex flex-col mt-7 ml-3">
-          <div class="flex justify-around my-3" *ngFor="let tag of [1,2,3,4,5,6,7,8,9,10];">
-            <label for="tag{{tag}}">{{tag}}</label>
+          <div class="flex justify-around my-3" *ngFor="let tag of tagList.controls; let index = index">
+            <label for="tag{{index + 1}}">{{index + 1}}</label>
             <input
             type="checkbox"
-            id="tag{{tag}}"
-            (change)="changeTags('tag'+ tag)"
-            value="{{tag}}"
+            [formControl]="tag"
+            id="tag{{index+1}}"
+            [value]="index"
             class="">
           </div>
         </div>
@@ -57,5 +60,8 @@
       <span class="text-center">{{editMode ? 'EDIT': 'ADD' }}</span>
     </button>
     </form>
+    <div class="w-full h-full flex items-center justify-center spn " *ngIf="loading">
+      <i  class="pi pi-spin pi-spinner text-white self-center place-content-center text-4xl z-[1001]"></i>
+    </div>
   </div>
 </div>

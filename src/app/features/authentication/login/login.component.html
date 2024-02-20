@@ -1,28 +1,35 @@
 <div class="w-full h-screen flex items-center justify-center bg-primary-200 text-blue-100">
-<form [formGroup]="loginForm" (ngSubmit)="loginUser()" class="w-[30%] text-center flex flex-col gap-10 bg-secondary-900 p-8 rounded-2xl shadow-lg">
-  <h1 class="text-4xl">Login</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="loginUser()"
+        class="w-[30%] text-center flex flex-col gap-10 bg-secondary-900 p-8 rounded-2xl shadow-lg">
+    <h1 class="text-4xl">Login</h1>
 
-  <div class="flex flex-col gap-3">
-    <label for="email" class="text-lg">Email</label>
-    <input
-      formControlName="email"
-      type="email"
-      id="email"
-      autocomplete="new-email"
-      class="rounded-3xl px-4 py-3 focus-visible:outline-none bg-gray-200 text-black">
-  </div>
-  <div class="flex flex-col gap-3">
-    <label for="password" class="text-lg">Password</label>
-    <input
-      formControlName="password"
-      type="password"
-      id="password"
-      autocomplete="new-password"
-      class="rounded-3xl px-4 py-3 focus-visible:outline-none bg-gray-200 text-black">
-  </div>
-  <button type="submit" class="w-[20%] px-4 py-3 rounded-2xl place-self-center bg-secondary-400 hover:bg-secondary-200 active:bg-secondary-700">Login</button>
-  <a routerLink="/auth/register">
-    Don't have an account? Sign up <b class="text-red-500 underline">HERE</b>
-  </a>
-</form>
+    <div class="flex flex-col gap-3">
+      <label for="email" class="text-lg">Email</label>
+      <input
+        formControlName="email"
+        type="email"
+        id="email"
+        autocomplete="new-email"
+        class="rounded-3xl px-4 py-3 focus-visible:outline-none bg-gray-200 text-black">
+    </div>
+    <div class="flex flex-col gap-3">
+      <label for="password" class="text-lg">Password</label>
+      <input
+        formControlName="password"
+        type="password"
+        id="password"
+        autocomplete="new-password"
+        class="rounded-3xl px-4 py-3 focus-visible:outline-none bg-gray-200 text-black">
+    </div>
+    <button type="submit" (click)="load()"
+            class="w-[20%] px-4 py-3 rounded-2xl place-self-center bg-secondary-400 hover:bg-secondary-200 active:bg-secondary-700">
+      Login
+    </button>
+    <a routerLink="/auth/register">
+      Don't have an account? Sign up <b class="text-red-500 underline">HERE</b>
+    </a>
+  </form>
+</div>
+<div class="w-full h-full flex items-center justify-center spn " *ngIf="loading">
+  <i class="pi pi-spin pi-spinner text-white self-center place-content-center text-4xl z-[1001]"></i>
 </div>

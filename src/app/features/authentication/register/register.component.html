@@ -1,5 +1,6 @@
 <div class="w-full h-screen flex items-center justify-center bg-primary-200 text-blue-100">
-  <form [formGroup]="register" autocomplete="off" (ngSubmit)="signUp()" class="w-[30%] text-center place-self-center flex flex-col gap-10 bg-secondary-900 p-8 rounded-2xl shadow-lg">
+  <form [formGroup]="register" autocomplete="off" (ngSubmit)="signUp()"
+        class="w-[30%] text-center place-self-center flex flex-col gap-10 bg-secondary-900 p-8 rounded-2xl shadow-lg">
     <h1 class="text-4xl">Sign Up</h1>
     <div class="flex flex-col gap-3 relative">
       <label for="email" class="text-lg">Email</label>
@@ -9,8 +10,12 @@
         id="email"
         autocomplete="new-email"
         class="rounded-3xl px-4 py-3 bg-gray-200 focus-visible:outline-none text-black">
-      <p class="text-red-500 error absolute -bottom-5 left-0 right-0 mx-auto" *ngIf="register.get('email')?.dirty && register.get('email')?.hasError('required')">Please enter your email</p>
-      <p class="text-red-500 error absolute -bottom-5 left-0 right-0 mx-auto" *ngIf="register.get('email')?.dirty && register.get('email')?.hasError('email')">Please enter a correct email</p>
+      <p class="text-red-500 error absolute -bottom-5 left-0 right-0 mx-auto"
+         *ngIf="register.get('email')?.dirty && register.get('email')?.hasError('required')">Please
+        enter your email</p>
+      <p class="text-red-500 error absolute -bottom-5 left-0 right-0 mx-auto"
+         *ngIf="register.get('email')?.dirty && register.get('email')?.hasError('email')">Please
+        enter a correct email</p>
     </div>
 
     <div class="flex flex-col gap-3 relative">
@@ -21,7 +26,9 @@
         id="username"
         autocomplete="new-username"
         class="rounded-3xl px-4 py-3 bg-gray-200 focus-visible:outline-none text-black">
-      <p class="text-red-500 error absolute -bottom-5 left-0 right-0 mx-auto" *ngIf="register.get('username')?.dirty && register.get('username')?.hasError('required')">You must have a username</p>
+      <p class="text-red-500 error absolute -bottom-5 left-0 right-0 mx-auto"
+         *ngIf="register.get('username')?.dirty && register.get('username')?.hasError('required')">
+        You must have a username</p>
     </div>
 
     <div class="flex flex-col gap-3 relative">
@@ -32,7 +39,9 @@
         id="password"
         autocomplete="new-password"
         class="rounded-3xl px-4 py-3 bg-gray-200 focus-visible:outline-none text-black">
-        <p class="text-red-500 error absolute -bottom-5 left-0 right-0 mx-auto" *ngIf="register.get('password')?.dirty && register.get('password')?.hasError('required')">You must set a password</p>
+      <p class="text-red-500 error absolute -bottom-5 left-0 right-0 mx-auto"
+         *ngIf="register.get('password')?.dirty && register.get('password')?.hasError('required')">
+        You must set a password</p>
     </div>
 
     <div class="flex flex-col gap-3 relative">
@@ -43,10 +52,20 @@
         id="confirmPass"
         autocomplete="new-confPass"
         class="rounded-3xl px-4 py-3 bg-gray-200 focus-visible:outline-none text-black">
-      <p class="text-red-500 error absolute -bottom-5 left-0 right-0 mx-auto" *ngIf="register.get('confirmPass')?.dirty && register.get('confirmPass')?.hasError('Password not match')">Password not match</p>
+      <p class="text-red-500 error absolute -bottom-5 left-0 right-0 mx-auto"
+         *ngIf="register.get('confirmPass')?.dirty && register.get('confirmPass')?.hasError('Password not match')">
+        Password not match</p>
     </div>
 
-    <button type="submit" class="w-[20%] rounded-2xl px-4 py-3 place-self-center whitespace-nowrap bg-secondary-400 hover:bg-secondary-200 active:bg-secondary-700">Sign Up</button>
-    <a routerLink="login" >Already have an account? Sign In <b class="text-red-500 underline">HERE</b></a>
+    <button type="submit" (click)="load()"
+            class="w-[20%] rounded-2xl px-4 py-3 place-self-center whitespace-nowrap bg-secondary-400 hover:bg-secondary-200 active:bg-secondary-700">
+      Sign Up
+    </button>
+    <a routerLink="login">Already have an account? Sign In <b
+      class="text-red-500 underline">HERE</b></a>
   </form>
+</div>
+<div class="w-full h-full flex items-center justify-center spn " *ngIf="loading">
+  <i
+    class="pi pi-spin pi-spinner text-white self-center place-content-center text-4xl z-[1001]"></i>
 </div>
