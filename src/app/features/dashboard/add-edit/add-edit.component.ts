@@ -8,7 +8,7 @@ import {
   Validators
 } from "@angular/forms";
 import { AsyncPipe, JsonPipe, Location, NgForOf, NgIf } from "@angular/common";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { DashboardService } from "../dashboard.service";
 import { Observable, Subject, switchMap, tap } from "rxjs";
@@ -39,6 +39,7 @@ export class AddEditComponent implements OnInit {
   addTrigger = new Subject<undefined>();
   editSubmit?: Observable<void>;
   addSubmit?: Observable<void>;
+  editSlug: any;
 
   addArticle = new FormGroup({
     title: new FormControl(null, { validators: [Validators.required,] }),
@@ -53,7 +54,7 @@ export class AddEditComponent implements OnInit {
     return this.addArticle.controls['tagList']
   }
 
-  constructor() {
+  constructor(private _path: ActivatedRoute) {
     this.editSubmit = this.editTrigger
       .pipe(
         switchMap((val) => {
@@ -87,7 +88,7 @@ export class AddEditComponent implements OnInit {
           this.loading = true;
           return this._api.addArticle({ ...this.addArticle.value,
             tagList: Object.entries(this.addArticle.value.tagList!).
-            filter(([_, val]) => val).map(([key, _]) => key) });
+            filter(( [ _, val] ) => val ).map(( [ key, _] ) => key ) });
           }),
         tap({
           next: () => {
@@ -111,6 +112,7 @@ export class AddEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    const slug = this._path.snapshot.paramMap.get('slug');
     const state: any = this._location.getState();
     console.log(state, !!state);
     if (state.title) {

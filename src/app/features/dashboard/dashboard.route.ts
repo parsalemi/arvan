@@ -4,7 +4,7 @@ import { MainComponent } from "./main/main.component";
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'list',
+    redirectTo: 'articles',
     pathMatch: "full"
   },
   {
@@ -12,11 +12,11 @@ export const routes: Routes = [
     component: MainComponent,
     children:[
       {
-        path:'list',
+        path:'articles',
         loadComponent: () => import('./list/list.component').then(c => c.ListComponent)
       },
       {
-        path:'add',
+        path:'create',
         loadComponent: () => import('./add-edit/add-edit.component').then(c => c.AddEditComponent)
       },
       {

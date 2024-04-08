@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy } from '@angular/core';
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import { BehaviorSubject, map, Observable, Subject, Subscription, switchMap, tap } from "rxjs";
 import { NgxPaginationModule } from "ngx-pagination";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { DashboardService } from "../dashboard.service";
 import { Article } from "../../../core/models/article.model";
@@ -38,7 +38,7 @@ export class ListComponent implements OnDestroy {
   deleteSlug$ = new Subject<string>();
   deleteSubmit?: Observable<any>;
 
-  constructor() {
+  constructor(private _path: ActivatedRoute) {
     this.articles$ = this.page$.pipe(
       switchMap((page) => {
         this.loading = false;
@@ -47,8 +47,8 @@ export class ListComponent implements OnDestroy {
     );
     this.deleteSubmit = this.deleteSlug$.pipe(
       switchMap(slug => {
-      this.loading = true;
-      return this._api.deleteArticle(slug);
+        this.loading = true;
+        return this._api.deleteArticle(slug);
     }), tap({
       next: (a) => {
         this.loading = false;
@@ -78,8 +78,8 @@ export class ListComponent implements OnDestroy {
     }
   }
 
-  editArticle(i: number, event: any) {
-    this.router.navigate(['/edit'], {
+  editArticle(i: number, slug: string) {
+    this.router.navigate(['/edit/'+ slug], {
       state: {
         // ...this.articles[i]
       }

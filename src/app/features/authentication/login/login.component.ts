@@ -40,7 +40,7 @@ export class LoginComponent {
           if (data.user.token) {
             localStorage.setItem('token', data.user.token);
             localStorage.setItem('username', data.user.username);
-            this.router.navigate(['/list']);
+            this.router.navigate(['/articles']);
           }
           this.loading = false;
           this._toastr.success('Enjoy!', 'You Logged In Successfully', {

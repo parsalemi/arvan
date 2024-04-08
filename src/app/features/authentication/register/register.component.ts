@@ -64,7 +64,7 @@ export class RegisterComponent {
         this.loading= false;
         localStorage.setItem('token', a.user.token);
         localStorage.setItem('username', a.user.username);
-        this.router.navigate(['/list']);
+        this.router.navigate(['/articles']);
         this._toastr.success('Sign Up Successfully', 'Register Done', {
           timeOut: 2000,
           positionClass: 'toast-top-right',

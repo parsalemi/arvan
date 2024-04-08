@@ -12,17 +12,19 @@
       </tr>
     </thead>
     <tbody *ngIf="articles$ | async as articles">
-      <tr *ngFor="let a of articles | paginate : {itemsPerPage:10, currentPage: page$.value, totalItems:270}; let i = index; let even = even"
+      <tr *ngFor="let a of articles | paginate : {itemsPerPage:10, currentPage: page$.value, totalItems:290}; let i = index; let even = even"
           class="even:bg-secondary-800 even:text-blue-100 odd:bg-primary-100 odd:text-blue-100 rowtr">
         <td class="w-[4%] h-[68px] border-r border-black">{{ i + 1 }}</td>
         <td class="w-[20%] h-[68px] overflow-hidden whitespace-nowrap p-4 text-ellipsis"><span class="">{{a.title}}</span></td>
         <td class="w-[10%] h-[68px] p-4">{{a.author.username}}</td>
-        <td class="w-[15%] h-[68px] overflow-hidden whitespace-nowrap p-4 text-ellipsis"><span *ngFor="let tag of a.tagList" class="text-wrap">{{tag}},</span></td>
+        <td class="w-[15%] h-[68px] overflow-hidden whitespace-nowrap p-4 text-ellipsis">
+          <span *ngFor="let tag of a.tagList" class="text-wrap">{{ tag.length == 1 ? tag : tag+',' }}</span>
+        </td>
         <td class="w-[31%] h-[68px] overflow-hidden whitespace-nowrap p-4 text-ellipsis"><span class="">{{a.description}}</span></td>
         <td class="w-[10%] h-[68px] overflow-hidden whitespace-nowrap p-4 text-ellipsis">{{a.createdAt.split('T')[0]}}</td>
         <td class="w-[10%] h-[68px] p-4">
           <div class="flex w-full justify-around items-center">
-            <p-button pButton icon="pi pi-file-edit" class="p-button-info w-9 h-9" (click)="editArticle(i, $event)" pTooltip="Edit article" tooltipPosition="bottom"></p-button>
+            <p-button pButton icon="pi pi-file-edit" class="p-button-info w-9 h-9" (click)="editArticle(i, a.slug)" pTooltip="Edit article" tooltipPosition="bottom"></p-button>
             <p-button pButton icon="pi pi-trash" class="p-button-danger w-9 h-9" (click)="deleteArticle(a.slug, $event)" pTooltip="Delete article" tooltipPosition="bottom"></p-button>
           </div>
         </td>
@@ -36,3 +38,4 @@
     <pagination-controls (pageChange)="page$.next($event)"></pagination-controls>
   </div>
 </div>
+
